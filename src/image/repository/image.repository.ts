@@ -9,4 +9,12 @@ export class ImageRepository {
   public async saveImage(image: Image): Promise<Image> {
     return await this.imageRepository.save(image);
   }
+
+  public async getById(uuid: string): Promise<Image> {
+    return await this.imageRepository.findOne({
+      where: {
+        uuid: uuid,
+      },
+    });
+  }
 }

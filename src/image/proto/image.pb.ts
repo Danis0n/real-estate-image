@@ -37,7 +37,7 @@ export interface ImageViewRequest {
 }
 
 export interface ImageViewResponse {
-  buffer: Uint8Array;
+  buffer: string;
 }
 
 export const IMAGE_PACKAGE_NAME = "image";

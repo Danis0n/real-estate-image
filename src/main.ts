@@ -9,6 +9,10 @@ async function bootstrap() {
   const app: INestMicroservice = await NestFactory.createMicroservice(
     AppModule,
     {
+      cors: {
+        origin: 'http://localhost:3001',
+        credentials: true,
+      },
       transport: Transport.GRPC,
       options: {
         url: '0.0.0.0:50053',
@@ -19,7 +23,6 @@ async function bootstrap() {
   );
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-
   await app.listen();
 }
 bootstrap();
