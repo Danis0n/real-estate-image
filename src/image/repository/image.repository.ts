@@ -17,4 +17,8 @@ export class ImageRepository {
       },
     });
   }
+
+  public async deleteById(uuid: string) {
+    await this.imageRepository.delete(uuid);
+  }
 }

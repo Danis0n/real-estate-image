@@ -1,5 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
+  ImageDeleteRequest,
+  ImageDeleteResponse,
   ImageUserResponse,
   ImageViewRequest,
   ImageViewResponse,
@@ -25,5 +27,12 @@ export class ImageService {
   public async getById(payload: ImageViewRequest): Promise<ImageViewResponse> {
     const image = await this.imageRepository.getById(payload.uuid);
     return { buffer: image.data.toString('base64') };
+  }
+
+  public async deleteById(
+    payload: ImageDeleteRequest,
+  ): Promise<ImageDeleteResponse> {
+    await this.imageRepository.deleteById(payload.uuid);
+    return { status: '200', error: null };
   }
 }
