@@ -1,3 +1,5 @@
+import { ImageCreate, ImagePostRequest } from '../proto/image.pb';
+
 export class ImageDto {
   public uuid: string;
   public contentType: string;
@@ -5,10 +7,15 @@ export class ImageDto {
   public size: number;
 }
 
-export class ImageCreate {
+export class ImageCreateDto implements ImageCreate {
   public buffer: Buffer;
   public fieldName: string;
   public originalName: string;
   public mimetype: string;
-  public size: bigint;
+  public size: number;
+}
+
+export class ImagePostDto implements ImagePostRequest {
+  images: ImageCreateDto[];
+  UUID: string;
 }

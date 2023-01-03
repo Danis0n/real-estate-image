@@ -1,9 +1,9 @@
 import { Image } from '../entity/image.entity';
-import { ImageCreate } from '../dto/image.dto';
+import { ImageCreateDto } from '../dto/image.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 export class ImageMapper {
-  public mapToNewImage(dto: ImageCreate): Image {
+  public mapToNewImage(dto: ImageCreateDto): Image {
     const image: Image = new Image();
     image.size = dto.size;
     image.data = dto.buffer;

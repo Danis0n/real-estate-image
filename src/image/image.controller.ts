@@ -1,8 +1,10 @@
-import { Controller, Inject, StreamableFile } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import {
   IMAGE_SERVICE_NAME,
   ImageDeleteResponse,
+  ImagePostResponse,
+  ImagesDeleteResponse,
   ImageUserResponse,
   ImageViewResponse,
 } from './proto/image.pb';
@@ -18,6 +20,11 @@ export class ImageController {
     return this.imageService.uploadToUser(payload);
   }
 
+  @GrpcMethod(IMAGE_SERVICE_NAME, 'ImageUploadPost')
+  private async uploadToPost(payload): Promise<ImagePostResponse> {
+    return this.imageService.uploadToPost(payload);
+  }
+
   @GrpcMethod(IMAGE_SERVICE_NAME, 'ImageView')
   private async getById(payload): Promise<ImageViewResponse> {
     return this.imageService.getById(payload);
@@ -26,5 +33,10 @@ export class ImageController {
   @GrpcMethod(IMAGE_SERVICE_NAME, 'ImageDelete')
   private async deleteById(payload): Promise<ImageDeleteResponse> {
     return this.imageService.deleteById(payload);
+  }
+
+  @GrpcMethod(IMAGE_SERVICE_NAME, 'ImagesDelete')
+  private async deleteMany(payload): Promise<ImagesDeleteResponse> {
+    return this.imageService.deleteMany(payload);
   }
 }

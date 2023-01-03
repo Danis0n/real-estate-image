@@ -4,12 +4,21 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "image";
 
+export interface ImagesDeleteRequest {
+  UUIDs: string[];
+}
+
+export interface ImagesDeleteResponse {
+  status: number;
+  error: string;
+}
+
 export interface ImageDeleteRequest {
-  uuid: string;
+  UUID: string;
 }
 
 export interface ImageDeleteResponse {
-  status: string;
+  status: number;
   error: string;
 }
 
@@ -22,27 +31,33 @@ export interface ImageUserRequest {
 }
 
 export interface ImageUserResponse {
-  status: string;
+  status: number;
   error: string;
-  uuid: string;
+  UUID: string;
 }
 
-export interface ImagePostRequest {
-  buffer: Uint8Array;
+export interface ImageCreate {
   fieldName: string;
   originalName: string;
   mimetype: string;
+  buffer: Uint8Array;
   size: number;
 }
 
+export interface ImagePostRequest {
+  images: ImageCreate[];
+  UUID: string;
+}
+
 export interface ImagePostResponse {
-  status: string;
+  status: number;
   error: string;
-  uuid: string;
+  UUID: string;
+  imagesUuids: string[];
 }
 
 export interface ImageViewRequest {
-  uuid: string;
+  UUID: string;
 }
 
 export interface ImageViewResponse {
@@ -59,6 +74,8 @@ export interface ImageServiceClient {
   imageView(request: ImageViewRequest): Observable<ImageViewResponse>;
 
   imageDelete(request: ImageDeleteRequest): Observable<ImageDeleteResponse>;
+
+  imagesDelete(request: ImagesDeleteRequest): Observable<ImagesDeleteResponse>;
 }
 
 export interface ImageServiceController {
@@ -75,11 +92,15 @@ export interface ImageServiceController {
   imageDelete(
     request: ImageDeleteRequest,
   ): Promise<ImageDeleteResponse> | Observable<ImageDeleteResponse> | ImageDeleteResponse;
+
+  imagesDelete(
+    request: ImagesDeleteRequest,
+  ): Promise<ImagesDeleteResponse> | Observable<ImagesDeleteResponse> | ImagesDeleteResponse;
 }
 
 export function ImageServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["imageUploadUser", "imageUploadPost", "imageView", "imageDelete"];
+    const grpcMethods: string[] = ["imageUploadUser", "imageUploadPost", "imageView", "imageDelete", "imagesDelete"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("ImageService", method)(constructor.prototype[method], method, descriptor);

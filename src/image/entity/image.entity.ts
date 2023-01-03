@@ -31,5 +31,5 @@ export class Image extends BaseEntity {
     nullable: false,
     type: 'bigint',
   })
-  public size!: bigint;
+  public size!: number;
 }
